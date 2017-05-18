@@ -1,21 +1,25 @@
-<?php require_once ("inc/init.inc.php");
+<?php require_once("inc/init.inc.php");
 
-# --------------------------- TRAITEMENT PHP
-
-if (!internauteEstConnecte()) {
+//-----------------------TRAITEMENT PHP
+if(!internauteEstConnecte()){
     header("location:connexion.php");
 }
+$pseudo = $_SESSION['membre']['pseudo'];
+$contenu .= '<p class="centre">Bonjour <strong>'.$_SESSION['membre']['pseudo']
+    .'</strong></p>';
+$contenu .= '<div class="cadre"><h2>Voici vos informations :</h2></div>';
+$contenu .= 'Votre email est :'.$_SESSION['membre']['email'].'<br/>';
+$contenu .= 'Votre ville est :'.$_SESSION['membre']['ville'].'<br/>';
+$contenu .= 'Votre code postal est :'.$_SESSION['membre']['code_postal'].'<br/>';
+$contenu .= 'Votre adresse est :'.$_SESSION['membre']['adresse'].'<br/>';
+$contenu .= '<form method="post" action=""><input name="desincription" value="Se désinscrire" type="submit"></form>';
 
-$contenu .= '<p class= "centre"> Bonjour <strong> '.$_SESSION['membre']['pseudo'].'</strong></p>';
+if($_POST){
+    executeRequete("DELETE FROM membre WHERE pseudo = '$pseudo'");
+    header("location:inscription.php");
+    echo "vous avez bien été désinscrit";
+}
 
-$contenu.= '<div class="cadre"> <h2> Voici vos informations perso </h2> </div>';
-
-$contenu .= '<p class= "centre"> Votre email est :  <strong> '.$_SESSION['membre']['email'].'</strong></p>';
-$contenu .= '<p class= "centre"> Votre adresse est :  <strong> '.$_SESSION['membre']['adresse'].'</strong></p>';
-$contenu .= '<p class= "centre"> ville <strong> '.$_SESSION['membre']['ville'].'</strong></p>';
-$contenu .= '<p class= "centre"> Code postal : <strong> '.$_SESSION['membre']['code_postal'].'</strong></p>';
-$contenu .= '<p class= "centre"> Bonjour <strong> '.$_SESSION['membre']['pseudo'].'</strong></p>';
-
-require_once ("inc/haut.inc.php");
+require_once("inc/haut.inc.php");
 echo $contenu;
-require_once ("inc/bas.inc.php");
+require_once("inc/bas.inc.php");
