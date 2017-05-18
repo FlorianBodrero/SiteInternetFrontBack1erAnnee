@@ -23,9 +23,10 @@ if($_POST){
 
 require_once("inc/haut.inc.php");
 echo $contenu;
+
+
+
 ?>
-
-
 
 
 <!--    EXO 5 - AJOUT PHOTO POUR AVATAR-->
