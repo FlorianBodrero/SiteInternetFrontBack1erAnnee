@@ -18,8 +18,7 @@ $mysqli-> set_charset('utf8'); #regle l'encodage de la BDD
 
 session_start();
 
-define('RACINE_SITE', "/PHP/1erAnne/SiteInternetFrontBack1erAnnee/site/"); #en gros c'est le chemin absolu de notre site
+define('RACINE_SITE', "/SiteInternetFrontBack1erAnnee/site/"); #en gros c'est le chemin absolu de notre site
 $contenu = '';
 
 require_once ("fonction.inc.php"); #inclu qu'une seule fois.
-

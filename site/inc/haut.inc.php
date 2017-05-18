@@ -19,7 +19,7 @@
     <header>
         <div class="conteneur">
             <span>
-                <a href="#" title="Mon site"> MonsSite.com</a>
+                <a href="<?php echo RACINE_SITE ?>" title="Mon site"> MonsSite.com</a>
             </span>
             <nav>
                 <?php
