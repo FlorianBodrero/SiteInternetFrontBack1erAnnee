@@ -16,6 +16,7 @@ $contenu .= '<form method="post" action=""><input name="desincription" value="Se
 
 if($_POST){
     executeRequete("DELETE FROM membre WHERE pseudo = '$pseudo'");
+
     header("location:inscription.php");
     echo "vous avez bien été désinscrit";
 }
