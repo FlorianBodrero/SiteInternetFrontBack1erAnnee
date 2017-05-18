@@ -13,7 +13,7 @@
 //----------------------------------------Connexion base de donneée site
 
 
-$mysqli = new mysqli("localhost", "root", "", "");
+$mysqli = new mysqli("localhost", "root", "", "site");
 
 if($mysqli -> connect_error) die('Impossible de se connecté à la base de donnée'.$mysqli->connect_error);
 $mysqli-> set_charset('utf8'); #regle l'encodage de la BDD
