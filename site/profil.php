@@ -5,7 +5,7 @@ if (!internauteEstConnecte()) {
     header("location:connexion.php");
 }
 $pseudo = $_SESSION['membre']['pseudo'];
-
+global $extensionUpload;
 
 $contenu .= '<p class="centre">Bonjour <strong>' . $_SESSION['membre']['pseudo']
     . '</strong></p>';
@@ -30,7 +30,7 @@ if ($query->num_rows == 1) {
     ?>
     <div id="avaterContainer" style="text-align: center">
         <img style="height: 100px; border-radius: 100%"
-             src="<?php echo "inc/img/photoAvatar/" . ($_SESSION['membre']['id_membre'] . ".jpg"); ?>">
+             src="<?php echo "inc/img/photoAvatar/" . ($_SESSION['membre']['id_membre'] .$extensionUpload ); ?>">
     </div>
 
     <?php
