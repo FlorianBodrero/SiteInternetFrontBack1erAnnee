@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="@localhost">
+  <database-model serializer="dbm" rdbms="MYSQL" format-version="4.2">
+    <root id="1"/>
+    <schema id="2" parent="1" name="bibliotheque">
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </schema>
+    <schema id="3" parent="1" name="immobilier"/>
+    <schema id="4" parent="1" name="information_schema"/>
+    <schema id="5" parent="1" name="mysql"/>
+    <schema id="6" parent="1" name="performance_schema"/>
+    <schema id="7" parent="1" name="sys"/>
+    <schema id="8" parent="1" name="ynov"/>
+    <schema id="9" parent="1" name="site"/>
+    <table id="10" parent="2" name="abonne"/>
+    <table id="11" parent="2" name="emprunt"/>
+    <table id="12" parent="2" name="livre"/>
+    <column id="13" parent="10" name="id_abonne">
+      <Position>1</Position>
+      <DataType>int(3)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="14" parent="10" name="prenom">
+      <Position>2</Position>
+      <DataType>varchar(15)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <key id="15" parent="10" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id_abonne</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="16" parent="11" name="id_emprunt">
+      <Position>1</Position>
+      <DataType>int(3)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="17" parent="11" name="id_livre">
+      <Position>2</Position>
+      <DataType>int(3)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="18" parent="11" name="id_abonne">
+      <Position>3</Position>
+      <DataType>int(3)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="19" parent="11" name="date_sortie">
+      <Position>4</Position>
+      <DataType>date|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="20" parent="11" name="date_rendu">
+      <Position>5</Position>
+      <DataType>date|0</DataType>
+    </column>
+    <index id="21" parent="11" name="fk_emprunt_abonne">
+      <ColNames>id_abonne</ColNames>
+    </index>
+    <index id="22" parent="11" name="fk_emprunt_livre">
+      <ColNames>id_livre</ColNames>
+    </index>
+    <key id="23" parent="11" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id_emprunt</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="24" parent="11" name="fk_emprunt_livre">
+      <ColNames>id_livre</ColNames>
+      <RefSchemaName>bibliotheque</RefSchemaName>
+      <RefTableName>livre</RefTableName>
+      <RefColNames>id_livre</RefColNames>
+    </foreign-key>
+    <foreign-key id="25" parent="11" name="fk_emprunt_abonne">
+      <ColNames>id_abonne</ColNames>
+      <RefSchemaName>bibliotheque</RefSchemaName>
+      <RefTableName>abonne</RefTableName>
+      <RefColNames>id_abonne</RefColNames>
+    </foreign-key>
+    <column id="26" parent="12" name="id_livre">
+      <Position>1</Position>
+      <DataType>int(3)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="27" parent="12" name="auteur">
+      <Position>2</Position>
+      <DataType>varchar(25)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="28" parent="12" name="titre">
+      <Position>3</Position>
+      <DataType>varchar(30)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <key id="29" parent="12" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id_livre</ColNames>
+      <Primary>1</Primary>
+    </key>
+  </database-model>
+</dataSource>

@@ -47,13 +47,20 @@ if (isset($_FILES['photo']) AND !empty($_FILES['photo'])) {
         $extensionUpload = strtolower(substr(strrchr($_FILES['photo']['name'], '.'), 1)); // strrchr : renvoie l'extension du fichier avec le . le subtring enlève le . tout mettre en minuscule
         if (in_array($extensionUpload, $fileExtension)) { // on teste si l'extension est bonne
             $chemin = "inc/img/photoAvatar/";
-            var_dump($chemin);
-            var_dump($_FILES['photo']);
-            var_dump($extensionUpload);
+
             $resultat = move_uploaded_file($_FILES['photo']['tmp_name'], $chemin.$_SESSION['membre']['id_membre'].".".$extensionUpload );
-            var_dump($resultat);
+
             if ($resultat) {
-                executeRequete("INSERT INTO imageavatar (image) VALUE ('".$_SESSION['membre']['id_membre'].".".$extensionUpload."')");
+                $query = executeRequete("SELECT id_membre from imageAvatar where id_membre='".$_SESSION['membre']['id_membre']."'");
+
+                if ($query -> num_rows == 0) {
+                    executeRequete("INSERT INTO imageavatar (id_membre, image) VALUE ('".$_SESSION['membre']['id_membre']."','".$_SESSION['membre']['id_membre'].".".$extensionUpload."')");
+                    echo 'Nous avons bien pris en compte votre image';
+                } else {
+                    executeRequete("UPDATE imageavatar SET image = ('".$_SESSION['membre']['id_membre'].".".$extensionUpload."') WHERE id_membre = '".$_SESSION['membre']['id_membre']."'" );
+                    echo 'Votre image a ete mise a jour ! ';
+                }
+
             } else {
                 echo 'il y a eu une erreur durant l\'importation de votre photo de profil. Voici l\'erreur : '. $mysqli -> error;
             }

@@ -45,10 +45,10 @@ CREATE TABLE IF NOT EXISTS produit (
 )ENGINE = InnoDB DEFAULT CHARSET =utf8 AUTO_INCREMENT = 11;
 
 CREATE TABLE IF NOT EXISTS imageAvatar (
-  id_membre INT(3) NOT NULL AUTO_INCREMENT,
+  id_membre INT(3) NOT NULL,
   image TEXT,
   PRIMARY KEY (id_membre)
-) ENGINE = InnoDB DEFAULT CHARSET =utf8 AUTO_INCREMENT = 6;
+) ENGINE = InnoDB DEFAULT CHARSET =utf8;
 
 # table créant des jointures
 CREATE TABLE IF NOT EXISTS details_commande (
@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS details_commande (
   PRIMARY KEY (id_details_commande)
 )ENGINE = InnoDB DEFAULT CHARSET =utf8 AUTO_INCREMENT = 4;
 
-ALTER TABLE imageAvatar ADD CONSTRAINT fk_idMembre_Avatar FOREIGN KEY (id_membre) REFERENCES membre(id_membre);
+
 ALTER TABLE details_commande ADD CONSTRAINT fk_details_produit FOREIGN KEY (id_produit) REFERENCES produit(id_produit);
 ALTER TABLE details_commande ADD CONSTRAINT fk_details_commande FOREIGN KEY (id_commande) REFERENCES commande(id_commande);
 ALTER TABLE commande ADD CONSTRAINT fk_commande_membre FOREIGN KEY (id_membre) REFERENCES membre(id_membre);
