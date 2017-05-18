@@ -120,6 +120,6 @@ echo '"
         <input type = "submit" value = "envoyer" >
     </form >';
     
-};
+}; ?>
 <?php require_once("../inc/bas.inc.php"); ?>
 
