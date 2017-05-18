@@ -42,7 +42,7 @@ if($_POST) {
 <?php echo $contenu?>
 <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
     <label for="pseudo"> Pseudo </label> <br/>
-    <input type="text" id="psuedo" name="pseudo" maxlength="20" placeholder="votre pseudo" required/> <br/>
+    <input type="text" id="pseudo" name="pseudo" maxlength="20" placeholder="votre pseudo" required/> <br/>
 
     <label for="mdp"> Mot de passe </label> <br/>
     <input type="password" id="mdp" name="mdp" maxlength="20" required/> <br/>

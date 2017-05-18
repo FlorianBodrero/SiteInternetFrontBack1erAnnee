@@ -68,7 +68,7 @@ if (isset($_GET['action']) && $_GET ['action'] == 'affichage') {
 require_once("../inc/haut.inc.php");
 echo $contenu;
 ?>
-<?php if (isset($_GET['action']) && $_GET['action'] == 'ajout' || $_GET['action'] == 'modification') {
+<?php if (isset($_GET['action']) && ($_GET['action'] == 'ajout' || $_GET['action'] == 'modification')) {
 if (isset($_GET['id_produit'])) {
     $resultat = executeRequete("SELECT * FROM produit WHERE id_produit = $_GET[id_produit]");
     $produit_actuel = $resultat -> fetch_assoc();
