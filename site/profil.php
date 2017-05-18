@@ -1,11 +1,12 @@
 <?php require_once("inc/init.inc.php");
 
+
 //-----------------------TRAITEMENT PHP
 if (!internauteEstConnecte()) {
     header("location:connexion.php");
 }
 $pseudo = $_SESSION['membre']['pseudo'];
-global $extensionUpload;
+
 
 $contenu .= '<p class="centre">Bonjour <strong>' . $_SESSION['membre']['pseudo']
     . '</strong></p>';
@@ -16,6 +17,9 @@ $contenu .= 'Votre code postal est :' . $_SESSION['membre']['code_postal'] . '<b
 $contenu .= 'Votre adresse est :' . $_SESSION['membre']['adresse'] . '<br/>';
 $contenu .= '<form method="post" action=""><input name="desincription" value="Se désinscrire" type="submit"></form>';
 
+
+
+
 if ($_POST) {
     executeRequete("DELETE FROM membre WHERE pseudo = '$pseudo'");
 
@@ -25,19 +29,19 @@ if ($_POST) {
 
 require_once("inc/haut.inc.php");
 
+
+
+echo $contenu;
+$resul = executeRequete("SELECT image from imageavatar WHERE id_membre = (".$_SESSION['membre']['id_membre'].")"); // problème a régler ici
 $query = executeRequete("SELECT id_membre from imageAvatar where id_membre='" . $_SESSION['membre']['id_membre'] . "'");
 if ($query->num_rows == 1) {
     ?>
     <div id="avaterContainer" style="text-align: center">
-        <img style="height: 100px; border-radius: 100%"
-             src="<?php echo "inc/img/photoAvatar/" . ($_SESSION['membre']['id_membre'] .$extensionUpload ); ?>">
+        <img style="height: 100px; border-radius: 100%" src="<?php echo "inc/img/photoAvatar/".$resul ?>" /> 
     </div>
 
     <?php
 }
-
-
-echo $contenu;
 
 
 ?>
