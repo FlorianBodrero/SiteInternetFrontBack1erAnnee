@@ -1,9 +1,13 @@
- <?php
- require_once("../inc/init.inc.php");
- //--------------------------------- AFFICHAGE HTML ---------------------------------//
- ?>
- <?php require_once("../inc/haut.inc.php"); ?>
- <?php echo $contenu; ?>
+<?php
+require_once("../inc/init.inc.php");
+# ----------------- TRAITEMENT PHP
+if (!internauteEstConnecteEtEstAdmin()) {
+    header("location:../connexion.php");
+}
+
+require_once("../inc/haut.inc.php");
+
+$commandes = executeRequete("SELECT * FROM commande");?>
 
  <h1>Bienvenu sur e-Ynov</h1>
 

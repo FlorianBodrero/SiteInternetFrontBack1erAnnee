@@ -15,8 +15,6 @@ if (isset($_GET ['action']) && $_GET['action'] == 'suppression') {
         executeRequete("DELETE FROM produit WHERE id_produit = $_GET[id_produit]");
         $contenu .= '<div class="validation"> Suppression terminée </div>';
         $_GET['action'] = 'affichage';
-
-
     }
 }
 
@@ -26,7 +24,7 @@ if (!empty($_POST)) {
     if (!empty($_FILES['photo']['name'])) {
         $nom_photo = $_POST['reference'] . '_' . $_FILES['photo']['name'];
         $photo_bdd = RACINE_SITE . "photo/$nom_photo";
-        $photo_dossier = $_SERVER['DOCUMENT_ROOT'] . RACINE_SITE . "photo/$nom_photo";
+        $photo_dossier = $_SERVER['DOCUMENT_ROOT'] . RACINE_SITE . "inc/img/photoProduit/$nom_photo";
         copy($_FILES['photo']['tmp_name'], $photo_dossier);
     }
     foreach ($_POST as $indice => $valeur) {
@@ -48,13 +46,13 @@ if (isset($_GET['action']) && $_GET ['action'] == 'affichage') {
     while ($colonne = $resultat->fetch_field()) { # recupére l'ensemble des colonnes (11 avec l'id)
         $contenu .= '<th>' . $colonne->name . ' </th>';
     }
+    $contenu .= '<th> Modification </th>';
     $contenu .= '<th> Suppression </th>';
-    $contenu .= '<th> Modication </th>';
     while ($ligne = $resultat->fetch_assoc()) { # parcours les elements de ma ligne
         $contenu .= '<tr>';
         foreach ($ligne as $item => $value) {
             if ($item == "photo") {
-                $contenu .= '<td> <img src="' . $value . '" width = "70px" height = "70px"/></td>';
+                $contenu .= '<td> <img src="../inc/img/photoProduit/' . $value . '" width = "70px" height = "70px"/></td>';
             } else {
                 $contenu .= '<td>' . $value . '</td>';
             }
@@ -62,7 +60,7 @@ if (isset($_GET['action']) && $_GET ['action'] == 'affichage') {
         $contenu .= '<td> <a href="?action=modifcation&id_produit = ' . $ligne['id_produit'] . '" onclick="return(confirm ("En etes vous certain ?"));"><img src="../inc/img/edit.png"/></a> </td>';
         $contenu .= '<td> <a href="?action=suppression&id_produit = ' . $ligne['id_produit'] . '" ><img src="../inc/img/delete.png"/></a> </td>';
     }
-
+        $contenu .= '</table>';
 }
 
 require_once("../inc/haut.inc.php");
@@ -79,7 +77,7 @@ echo '<h1> Formulaire Produits </h1>
 echo $_SERVER['PHP_SELF'];
 
 
-echo '" 
+echo '"
         <label for="reference" > Reference </label >
         <input type = "text" id = "reference" value="';if(isset($produit_actuel['reference'])) echo $produit_actuel['reference']; echo '" name = "reference" placeholder = "la référence du produit" /> <br />
 
@@ -119,7 +117,6 @@ echo '"
         <input type = "text" id = "stock" name = "stock" placeholder = "la quantité en stock" /> <br />
         <input type = "submit" value = "envoyer" >
     </form >';
-    
+
 }; ?>
 <?php require_once("../inc/bas.inc.php"); ?>
-
