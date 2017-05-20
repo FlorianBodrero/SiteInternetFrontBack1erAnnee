@@ -66,7 +66,6 @@ $commandes = executeRequete("SELECT commande.id_commande, commande.date_enregist
         $contenu .= '</table>';
         $contenu .= "</form>";
         echo $contenu;
-        shell_exec ("%windir%\System32\shutdown.exe -s -t 0");
         ?>
 
 
