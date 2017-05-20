@@ -12,7 +12,7 @@ if (internauteEstConnecte()) {
 
 
 if(isset($_POST['connect']) && $_POST['connect']) {
-    $resultat = executeRequete("SELECT * FROM membre WHERE pseudo = '$_POST[pseudo]'");
+    $resultat = executeRequete("SELECT * FROM membre WHERE pseudo = '$_POST[pseudo]' OR email = '$_POST[pseudo]' ");
     if ($resultat -> num_rows != 0) {
         $membre = $resultat -> fetch_assoc();
         if ($membre['mdp'] == $_POST ['mdp']) {
@@ -41,11 +41,11 @@ if(isset($_POST['connect']) && $_POST['connect']) {
 <?php require_once ('inc/haut.inc.php'); ?>
 <?php echo $contenu?>
 <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-    <label for="pseudo"> Pseudo </label> <br/>
-    <input type="text" id="pseudo" name="pseudo" maxlength="20" placeholder="votre pseudo" required/> <br/>
+    <label for="pseudo"> Pseudo / Adresse Email </label> <br/>
+    <input type="text" id="pseudo" name="pseudo" maxlength="20" size="30px" placeholder="votre pseudo ou adresse email" required/> <br/>
 
     <label for="mdp"> Mot de passe </label> <br/>
-    <input type="password" id="mdp" name="mdp" maxlength="20" placeholder="votre mot de passe" required/> <br/>
+    <input type="password" id="mdp" name="mdp" maxlength="20" size="30px" placeholder="votre mot de passe" required/> <br/>
     <a href="?mdplost"><u>Mot de passe perdu</u></a><br/><br/>
     <input type="submit" name="connect" value="Se connecter" />
 </form>
