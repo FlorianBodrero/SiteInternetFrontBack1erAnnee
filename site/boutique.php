@@ -13,6 +13,7 @@ require_once("inc/init.inc.php");
 <input type="submit" name="rechercher" value="Rechercher">
 </form>
 <?php 
+////// SANS RECHERHCE ON AFFICHE TOUT LES PRODUITS //////
 if(empty($_POST['motcle'])){
 $resultat = executeRequete("SELECT * FROM produit");
     $contenu .= '<h2> Affichage des produits </h2>';
@@ -63,7 +64,7 @@ else{
     }
 	
 	foreach ($motcle as $word) {
-		$resultat = executeRequete("SELECT * FROM produit WHERE couleur='".$word."' OR categorie='".$word."' OR titre='".$word."' ");
+		$resultat = executeRequete("SELECT * FROM produit WHERE categorie LIKE '%".$word."%' OR titre LIKE '%".$word."%' ");
     while ($ligne = $resultat->fetch_assoc()) { # parcours les elements de ma ligne
         $contenu .= '<tr>';
         if (!in_array($ligne, $data)) {
