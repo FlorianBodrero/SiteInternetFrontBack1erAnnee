@@ -31,7 +31,6 @@ require_once("inc/haut.inc.php");
 
 
 
-
 echo $contenu;
 $resul = executeRequete("SELECT image from imageavatar WHERE id_membre = (".$_SESSION['membre']['id_membre'].")"); // problème a régler ici
 $query = executeRequete("SELECT id_membre from imageAvatar where id_membre='" . $_SESSION['membre']['id_membre'] . "'");
