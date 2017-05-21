@@ -48,52 +48,45 @@ echo $contenu;
 ////// ON COMMENCE LA RECHERCHE //////
 
 else{
-	$motcle = explode(" ", $_POST['motcle']);
+	$motcle = explode(" ", $_POST['motcle']); //DISPOSER EN TABLEAU LES MOTS CLES
 	echo '<p><strong>Les produits correspondants à votre recherche : </strong> " '.$_POST['motcle'].' "</p>';
 	
 	$resultat = executeRequete("SELECT * FROM produit");
 	$contenu .= '<h2> Affichage des produits </h2>';
     $contenu .= '<table border="1"><tr>';
-    $data = array();
-    $nombre =0;
-    while ($colonne = $resultat->fetch_field()) { # recupére l'ensemble des colonnes (11 avec l'id)
+
+    while ($colonne = $resultat->fetch_field()) { # AFFICHER LES COLONNES
 	    if ($colonne->name != 'id_produit' && $colonne->name != 'reference') {
 	        $contenu .= '<th>' . $colonne->name . ' </th>';
-	   	    }
-	   	    
+	   	    }   	    
     }
-	
-	foreach ($motcle as $word) {
-		$resultat = executeRequete("SELECT * FROM produit WHERE categorie LIKE '%".$word."%' OR titre LIKE '%".$word."%' ");
-    while ($ligne = $resultat->fetch_assoc()) { # parcours les elements de ma ligne
-        $contenu .= '<tr>';
-        if (!in_array($ligne, $data)) {
-        	$nombre ++;
-	        foreach ($ligne as $item => $value) {
 
-	        	if ($item != 'id_produit' && $item != 'reference') {
+	$req = "SELECT * FROM produit WHERE";
+	foreach ($motcle as $word) { //BUILD LA REQUETE A L(AIDE DE SMOTS CLES)
+		 $req .= " (titre LIKE '%".$word."%' OR categorie LIKE '%".$word."%') AND";
+	}
+	$req = preg_replace("#AND$#", "", $req);
+
+	$resultat = executeRequete($req);	
+    while ($ligne = $resultat->fetch_assoc()) { // CONSTUIRE LE TABLEAU EQUIVALENT A LA REQUETE CRÉÉE
+        $contenu .= '<tr>';
+	        foreach ($ligne as $item => $value) {
+				if ($item != 'id_produit' && $item != 'reference') {
 			        if ($item == "photo") {
 				            $contenu .= '<td> <img src="inc/img/photoProduit/' . $value . '" width = "70px" height = "70px"/></td>';
 				    } else {
 				            $contenu .= '<td>' . $value . '</td>';
 						}	           
 				}
-			    array_push($data, $ligne);
-			}
-        }
-        for ($a =0; $a < $nombre; $a++){
-        $contenu .= '<td> <u><a href="?action=panier&id_produit = ' . $ligne['id_produit'] . '" onclick="return(alert ("Ajouté au panier"));">Ajouter au panier </a></u> </td>';
-   		 }
-   		 $nombre = 0;
-    }
-    
 
+			}
+        
+		// AJOUTER UNE CASE AJOUTER AU PANIER A LA FIN DE CHAQUE ARTICLE
+        $contenu .= '<td> <u><a href="?action=panier&id_produit = ' . $ligne['id_produit'] . '" onclick="return(alert ("Ajouté au panier"));">Ajouter au panier </a></u> </td>';
     }
 
     $contenu .= '</table>';
 	echo $contenu;
-
-	
 }
 
 ?>
