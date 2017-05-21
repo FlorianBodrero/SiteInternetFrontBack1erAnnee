@@ -1,4 +1,4 @@
-<?php require_once("inc/init.inc.php");
+﻿<?php require_once("inc/init.inc.php");
 
 //-----------------------TRAITEMENT PHP
 if(!internauteEstConnecte()){
