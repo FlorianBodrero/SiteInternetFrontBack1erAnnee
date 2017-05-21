@@ -15,7 +15,7 @@ if(empty($_POST['motcle'])){
         $resultat = executeRequete("SELECT * FROM produit LIMIT 0, 6");
     }
     else {
-        $offset = ($_GET['page']-1)*6-1;
+        $offset = ($_GET['page']-1)*6;
         $resultat = executeRequete("SELECT * FROM produit LIMIT $offset, 6");
     }
 
@@ -58,7 +58,7 @@ else{
         $resultat = executeRequete("SELECT * FROM produit LIMIT 0, 6");
     }
     else {
-        $offset = ($_GET['page']-1)*6-1;
+        $offset = ($_GET['page']-1)*6;
         $resultat = executeRequete("SELECT * FROM produit LIMIT $offset, 6");
     }
 	$contenu .= '<h2> Affichage des produits </h2>';
