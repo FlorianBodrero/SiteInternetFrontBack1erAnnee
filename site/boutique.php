@@ -11,12 +11,22 @@ require_once("inc/init.inc.php");
 <?php
 ////// SANS RECHERHCE ON AFFICHE TOUT LES PRODUITS //////
 if(empty($_POST['motcle'])){
-    if (empty($_GET['page']) || $_GET['page'] == 1) {
+    if (empty($_GET['page'])) {
+        $_GET['page'] = 1;
         $resultat = executeRequete("SELECT * FROM produit LIMIT 0, 6");
+    }
+    elseif ($_GET['page'] < 1) {
+        header("location:boutique.php");
     }
     else {
         $offset = ($_GET['page']-1)*6;
         $resultat = executeRequete("SELECT * FROM produit LIMIT $offset, 6");
+    }
+    $nb_pages = ceil($resultat->num_rows/6);
+
+    if($_GET['page'] > $nb_pages)
+    {
+        header("location:boutique.php");
     }
 
     $contenu .= '<h2> Affichage des produits </h2>';
@@ -54,13 +64,14 @@ else{
 	$motcle = explode(" ", $_POST['motcle']); //DISPOSER EN TABLEAU LES MOTS CLES
 	echo '<p><strong>Les produits correspondants à votre recherche : </strong> " '.$_POST['motcle'].' "</p>';
 
-    if (empty($_GET['page']) || $_GET['page'] == 1) {
+    if (empty($_GET['page'])) {
         $resultat = executeRequete("SELECT * FROM produit LIMIT 0, 6");
     }
     else {
         $offset = ($_GET['page']-1)*6;
         $resultat = executeRequete("SELECT * FROM produit LIMIT $offset, 6");
     }
+
 	$contenu .= '<h2> Affichage des produits </h2>';
     $contenu .= '<table border="1"><tr>';
 
@@ -113,6 +124,7 @@ else{
 
         if( $page < 1 OR $page > $nb_pages AND $nb_pages >= 1 )
         {
+            header("location:../connexion.php");
             throw $this->createNotFoundException('Page inexistante (page = '.$page.')');
         }
 
