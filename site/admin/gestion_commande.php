@@ -5,8 +5,18 @@ if (!internauteEstConnecteEtEstAdmin()) {
     header("location:../connexion.php");
 }
 
-require_once("../inc/haut.inc.php");
-
+require_once("../inc/haut.inc.php");?>
+<?php  ?>
+<form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
+    <label for="tri">Trier par :</label>
+    <select name="tri">
+        <option value="date">Date</option>
+        <option value="prix">Prix</option>
+        <option value="etat">Etat</option>
+    </select>
+    <input type="submit" name="trier" value="Trier">
+</form>
+<?php
 $commandes = executeRequete("SELECT commande.id_commande, commande.date_enregistrement, commande.montant, membre.pseudo, membre.adresse, membre.ville, membre.code_postal, commande.etat
     FROM commande, membre
     WHERE commande.id_membre = membre.id_membre
@@ -30,7 +40,13 @@ $commandes = executeRequete("SELECT commande.id_commande, commande.date_enregist
             }
 
             if ($item == "etat") {
-                $contenu .= '<td>' . $value . '</td>';
+                $contenu .= '<td>
+                <select name="etat">
+                <option value="en cours de traitement"'; if ($value == "en cours de traitement") $contenu .= "selected"; $contenu .= '>en cours de traitement</option>
+                <option value="envoyé"'; if ($value == "envoyé") $contenu .= "selected"; $contenu .= '>envoyé</option>
+                <option value="livré"'; if ($value == "livré") $contenu .= "selected"; $contenu .= '>livré</option>
+                </select>
+                </td>';
             } else {
                 $contenu .= '<td>' . $value . '</td>';
             }
@@ -66,6 +82,11 @@ $commandes = executeRequete("SELECT commande.id_commande, commande.date_enregist
         $contenu .= '</table>';
         $contenu .= "</form>";
         echo $contenu;
+
+        if (isset($_POST['etat'])) {
+            executeRequete("UPDATE commande SET etat=\"$_POST[etat]\" WHERE id_commande = $_POST[id_commande];");
+            mail('user@adresse.mail', 'Votre commande', 'Votre commande est en cours');
+        }
         ?>
 
 
