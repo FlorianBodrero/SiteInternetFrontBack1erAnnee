@@ -15,7 +15,7 @@ if(isset($_POST['connect']) && $_POST['connect']) {
     $resultat = executeRequete("SELECT * FROM membre WHERE pseudo = '$_POST[pseudo]' OR email = '$_POST[pseudo]' ");
     if ($resultat -> num_rows != 0) {
         $membre = $resultat -> fetch_assoc();
-        if ($membre['mdp'] == decrypt($_POST['mdp'], $membre['pseudo'])) {
+        if ($_POST['mdp'] == decrypt($membre['mdp'], $membre['pseudo'])) {
             foreach ($membre as $indice => $element) {
                 if ($indice != 'mdp') {
                     $_SESSION['membre'][$indice] = $element;
