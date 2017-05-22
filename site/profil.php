@@ -15,6 +15,7 @@ $contenu .= 'Votre email est :' . $_SESSION['membre']['email'] . '<br/>';
 $contenu .= 'Votre ville est :' . $_SESSION['membre']['ville'] . '<br/>';
 $contenu .= 'Votre code postal est :' . $_SESSION['membre']['code_postal'] . '<br/>';
 $contenu .= 'Votre adresse est :' . $_SESSION['membre']['adresse'] . '<br/>';
+$contenu .= '<a href="membre.php">Mettre à jour mes informations</a>';
 $contenu .= '<form method="post" action=""><input name="desincription" value="Se désinscrire" type="submit"></form>';
 
 
