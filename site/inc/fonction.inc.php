@@ -62,3 +62,21 @@ function decrypt($encrypted_string, $encryption_key) {
     return $decrypted_string;
 }
 
+$messageAChiffrer = "Coucou je suis Romain";
+$cleSecrete = "MaCleEstIncassable";
+
+
+
+
+// On chiffre le message
+$messageChiffre = encrypt($messageAChiffrer, $cleSecrete);
+var_dump($messageChiffre);
+//$a = mb_convert_encoding($messageChiffre, 'utf8');
+
+//var_dump(mb_detect_encoding($messageChiffre));
+
+// Pour le lire
+$messageDechiffrer = decrypt($messageChiffre, $cleSecrete);
+
+echo $messageDechiffrer;
+//echo $a;
