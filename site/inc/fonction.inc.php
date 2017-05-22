@@ -52,32 +52,13 @@ function encrypt($pure_string, $encryption_key) {
     $iv_size = mcrypt_get_iv_size(MCRYPT_BLOWFISH, MCRYPT_MODE_ECB);
     $iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
     $encrypted_string = mcrypt_encrypt(MCRYPT_BLOWFISH, $encryption_key, utf8_encode($pure_string), MCRYPT_MODE_ECB, $iv);
-    return $encrypted_string;
+    return base64_encode($encrypted_string);
 }
 
 function decrypt($encrypted_string, $encryption_key) {
+    $encrypted_string = base64_decode($encrypted_string);
     $iv_size = mcrypt_get_iv_size(MCRYPT_BLOWFISH, MCRYPT_MODE_ECB);
     $iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
     $decrypted_string = mcrypt_decrypt(MCRYPT_BLOWFISH, $encryption_key, $encrypted_string, MCRYPT_MODE_ECB, $iv);
     return $decrypted_string;
 }
-
-
-$messageAChiffrer = "Coucou je suis Romain";
-$cleSecrete = "MaCleEstIncassable";
-
-
-
-
-// On chiffre le message
-$messageChiffre = encrypt($messageAChiffrer, $cleSecrete);
-var_dump($messageChiffre);
-//$a = mb_convert_encoding($messageChiffre, 'utf8');
-
-//var_dump(mb_detect_encoding($messageChiffre));
-
-// Pour le lire
-$messageDechiffrer = decrypt($messageChiffre, $cleSecrete);
-
-echo $messageDechiffrer;
-//echo $a;

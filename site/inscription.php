@@ -11,7 +11,6 @@ if ($_POST) {
             $contenu = "<div class='erreur'> Le psuedo existe déjà. Veuillez le changer </div>";
         } else {
             $mdp = encrypt($_POST['mdp'], $_POST['pseudo']);
-            echo $mdp;
             foreach ($_POST as $indice => $valeur) {
                 $_POST[$indice] = htmlentities(addslashes($valeur)); #htmlentitites: prend les characteres tel qu'ils sont
             }
