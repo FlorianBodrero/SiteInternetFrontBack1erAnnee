@@ -44,7 +44,7 @@ if ($_POST) {
 
     <label for="civilite"> Civilite </label> <br/>
     <input type="radio" name="civilite" value="m" checked/> Homme
-    <input type="radio" name="civilite" value="f"/> Femme
+    <input type="radio" name="civilite" value="f"/> Femme <br/>
 
     <label for="ville"> Ville </label> <br/>
     <input type="text" id="ville" name="ville" maxlength="20" placeholder="votre Ville" required/> <br/>
@@ -56,7 +56,7 @@ if ($_POST) {
     <input type="text" id="adresse" name="adresse" maxlength="100" placeholder="votre Adresse" required/> <br/>
 
 
-    <input type="submit" name="inscription" value="S'inscrire">;
+    <input type="submit" name="inscription" value="S'inscrire">
 </form>
 
 
