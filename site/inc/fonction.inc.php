@@ -62,6 +62,7 @@ function decrypt($encrypted_string, $encryption_key) {
     return $decrypted_string;
 }
 
+
 $messageAChiffrer = "Coucou je suis Romain";
 $cleSecrete = "MaCleEstIncassable";
 

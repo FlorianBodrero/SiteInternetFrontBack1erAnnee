@@ -22,6 +22,7 @@ if ($_POST) {
 }
 
 
+
 ?>
 <?php require_once("inc/haut.inc.php"); ?>
 <?php echo $contenu ?>
