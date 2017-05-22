@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 require_once("inc/init.inc.php");
 //--------------------------------- AFFICHAGE HTML ---------------------------------//
 ?>
@@ -38,7 +38,7 @@ if(empty($_POST['motcle'])){
     }
     $nb_pages = ceil($resultat->num_rows/6);
 
-    if($_GET['page'] > $nb_pages)
+    if($_GET['page'] > $nb_pages && $nb_pages >= 1)
     {
         header("location:boutique.php");
     }
