@@ -7,10 +7,13 @@ if (!internauteEstConnecteEtEstAdmin()) {
 
 # ------------------ SUPPRESSION
 if (isset($_GET ['action']) && $_GET['action'] == 'suppression') {
+    // Récupère le produit à supprimer
     $resultat = executeRequete("SELECT * FROM produit WHERE id_produit = $_GET[id_produit]");
     $produit_a_supprimer = $resultat->fetch_assoc();
     $chemin_photo_a_supprimer = $_SERVER ['DOCUMENT_ROOT'] . $produit_a_supprimer['photo'];
+    // Si une photo existe
     if (!empty($produit_a_supprimer['photo'] && file_exists($chemin_photo_a_supprimer))) {
+        // Supprime la photo, puis supprime le produit
         unlink($chemin_photo_a_supprimer);
         executeRequete("DELETE FROM produit WHERE id_produit = $_GET[id_produit]");
         $contenu .= '<div class="validation"> Suppression terminée </div>';
@@ -18,7 +21,7 @@ if (isset($_GET ['action']) && $_GET['action'] == 'suppression') {
     }
 }
 
-
+// Rajoute un produit
 if (!empty($_POST)) {
     $photo_bdd = "";
     if (!empty($_FILES['photo']['name'])) {
@@ -65,8 +68,8 @@ if (isset($_GET['action']) && $_GET ['action'] == 'affichage') {
 
 require_once("../inc/haut.inc.php");
 echo $contenu;
-?>
-<?php if (isset($_GET['action']) && ($_GET['action'] == 'ajout' || $_GET['action'] == 'modification')) {
+
+if (isset($_GET['action']) && ($_GET['action'] == 'ajout' || $_GET['action'] == 'modification')) {
 if (isset($_GET['id_produit'])) {
     $resultat = executeRequete("SELECT * FROM produit WHERE id_produit = $_GET[id_produit]");
     $produit_actuel = $resultat -> fetch_assoc();
