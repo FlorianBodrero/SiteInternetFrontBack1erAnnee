@@ -129,3 +129,22 @@ $contenu .= '</div>';
 //--------------------------------- AFFICHAGE HTML ---------------------------------//
 echo $contenu;
 require_once("inc/bas.inc.php");
+?>
+
+
+<script>
+var myRange = document.querySelector('#myRange');
+var myValue = document.querySelector('#myValue');
+var off = myRange.offsetWidth / (parseInt(myRange.max) - parseInt(myRange.min));
+var px =  ((myRange.valueAsNumber - parseInt(myRange.min)) * off) - (myValue.offsetParent.offsetWidth / 2);
+
+myValue.parentElement.style.left = px + 'px';
+myValue.parentElement.style.top = myRange.offsetHeight + 'px';
+myValue.innerHTML = 15 + '€';
+
+myRange.oninput =function(){
+    let px = ((myRange.valueAsNumber - parseInt(myRange.min)) * off) - (myValue.offsetWidth / 2);
+    myValue.innerHTML = myRange.value + '€';
+    myValue.parentElement.style.left = px + 'px';
+};
+</script>
