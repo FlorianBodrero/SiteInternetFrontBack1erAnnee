@@ -20,7 +20,7 @@ if(isset($_GET['categorie']))
 	{
 		$contenu .= '<div class="boutique-produit">';
 		$contenu .= "<h3>$produit[titre]</h3>";
-		$contenu .= "<a href=\"fiche_produit.php?id_produit=$produit[id_produit]\"><img src=\"$produit[photo]\" width=\"100\" height=\"100\" /></a>";
+		$contenu .= "<a href=\"fiche_produit.php?id_produit=$produit[id_produit]\"><img src=\"inc/img/photoProduit/$produit[photo]\" width=\"100\" height=\"100\" /></a>";
 		$contenu .= "<p>$produit[prix] €</p>";
 		$contenu .= '<a href="fiche_produit.php?id_produit=' . $produit['id_produit'] . '">Voir la fiche</a>';
 		$contenu .= '</div>';
