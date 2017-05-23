@@ -9,8 +9,6 @@ require_once("../inc/haut.inc.php");
 
 $membres = executeRequete("SELECT * FROM membre");
 
-$ligne = $membres->fetch_assoc();
-
  echo '<div>';
     echo '<table style="border: solid black 1px; border-collapse: collapse">';
     echo '<thead>';
