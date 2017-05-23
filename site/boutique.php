@@ -26,31 +26,31 @@ require_once("inc/haut.inc.php");?>
 if (!isset($_POST['range'])) { // tranche de prix max
     $_POST['range'] = 150;
 }
-if(empty($_POST['motcle'])){
-    if (empty($_GET['page'])) {
-        $_GET['page'] = 1;
-        $resultat = executeRequete("SELECT * FROM produit WHERE prix <= $_POST[range] LIMIT 0, 6"); //afficher maximum 6 éléments
-    }
-    elseif ($_GET['page'] < 1) { // si pas de pages, ne pas écrire le nombre de pages
-        header("location:boutique.php");
-    }
-    else {
-        $offset = ($_GET['page']-1)*6; // nombre de pages de 0 à 5
-        $resultat = executeRequete("SELECT * FROM produit WHERE prix <= $_POST[range] LIMIT $offset, 6");
-    }
-    $nb_pages = ceil($resultat->num_rows/6); //arrondir le nombre de pages
+ if(empty($_POST['motcle'])){
+//     if (empty($_GET['page'])) {
+//         $_GET['page'] = 1;
+//         $resultat = executeRequete("SELECT * FROM produit WHERE prix <= $_POST[range] LIMIT 0, 6"); //afficher maximum 6 éléments
+//     }
+//     elseif ($_GET['page'] < 1) { // si pas de pages, ne pas écrire le nombre de pages
+//         header("location:boutique.php");
+//     }
+//     else {
+//         $offset = ($_GET['page']-1)*6; // nombre de pages de 0 à 5
+//         $resultat = executeRequete("SELECT * FROM produit WHERE prix <= $_POST[range] LIMIT $offset, 6");
+//     }
+//     $nb_pages = ceil($resultat->num_rows/6); //arrondir le nombre de pages
 
-    if($_GET['page'] > $nb_pages && $nb_pages >= 1) // éviter bugs si les pages sont plus nombreuses que prévues
-    {
-        header("location:boutique.php");
-    }
+//     if($_GET['page'] > $nb_pages && $nb_pages >= 1) // éviter bugs si les pages sont plus nombreuses que prévues
+//     {
+//         header("location:boutique.php");
+//     }
 
     $categories_des_produits = executeRequete("SELECT DISTINCT categorie FROM produit");
     $contenu .= '<div class="boutique-gauche">';
     $contenu .= "<ul>";
     while($cat = $categories_des_produits->fetch_assoc())
     {
-    	$contenu .= "<li><a href='?categorie="	. $cat['categorie'] . "'>" . $cat['categorie'] . "</a></li>";
+    	$contenu .= "<li><a href='?categorie="	. $cat['categorie'] . "&page=1'>" . $cat['categorie'] . "</a></li>";
     }
     $contenu .= "</ul>";
     $contenu .= "</div>";
@@ -66,7 +66,7 @@ else{
     foreach ($motcle as $word) { //BUILD LA REQUETE A L'AIDE DES MOTS CLES
         $req .= " (titre LIKE '%".$word."%' OR categorie LIKE '%".$word."%') AND";
     }
-    $req = preg_replace("#AND$#", "", $req); //supprimer le denrier AND
+    $req = preg_replace("#AND$#", "", $req); //supprimer le dernier AND
 
     $resultat = executeRequete($req); //executer la reqête finale
 
@@ -89,18 +89,20 @@ else{
 $contenu .= '<div class="boutique-droite">';
 if(isset($_GET['categorie']))
 {
+	
     if (empty($_GET['page'])) {
         $_GET['page'] = 1;
         $resultat = executeRequete("SELECT * FROM produit WHERE prix <= $_POST[range] AND categorie='$_GET[categorie]' LIMIT 0, 6"); //afficher maximum 6 éléments
     }
     elseif ($_GET['page'] < 1) { // si pas de pages, ne pas écrire le nombre de pages
-        header("location:boutique.php");
+        header("location:boutique.php"); 
     }
     else {
         $offset = ($_GET['page']-1)*6; // nombre de pages de 0 à 5
+        $test = executeRequete("SELECT * FROM produit WHERE prix <= $_POST[range] AND categorie='$_GET[categorie]'");
         $resultat = executeRequete("SELECT * FROM produit WHERE prix <= $_POST[range] AND categorie='$_GET[categorie]' LIMIT $offset, 6");
     }
-    $nb_pages = ceil($resultat->num_rows/6); //arrondir le nombre de pages
+    $nb_pages = ceil($test->num_rows/6); //arrondir le nombre de pages
 
     if($_GET['page'] > $nb_pages && $nb_pages >= 1) // éviter bugs si les pages sont plus nombreuses que prévues
     {
@@ -116,8 +118,13 @@ if(isset($_GET['categorie']))
 		$contenu .= '<a href="fiche_produit.php?id_produit=' . $produit['id_produit'] . '">Voir la fiche</a>';
 		$contenu .= '</div>';
 	}
+
+	for ($i=1;$i<$nb_pages+1;$i++){
+	echo '<a style="margin:10px;" href="?categorie='.$_GET['categorie'].'&page='.$i.'">Page '.$i.'</a>';
+}
 }
 $contenu .= '</div>';
+
 //--------------------------------- AFFICHAGE HTML ---------------------------------//
 echo $contenu;
 require_once("inc/bas.inc.php");
