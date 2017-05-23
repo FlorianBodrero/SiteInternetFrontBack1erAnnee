@@ -19,7 +19,6 @@ while ($ligne = $recupMdp->fetch_assoc()) {
     foreach ($ligne as $indice => $information) {
     }
 }
-
 // les mots de passe de la base de données son cryptés. Pour qu'il s'affiche chez l'utilisateur on va donc décrypter le mot de passe que l'on récupère
 $information = decrypt($information, $_SESSION['membre']['pseudo']);
 
