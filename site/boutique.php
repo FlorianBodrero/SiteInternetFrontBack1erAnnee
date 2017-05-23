@@ -45,16 +45,46 @@ if(empty($_POST['motcle'])){
         header("location:boutique.php");
     }
 
-    $contenu .= '<h2> Affichage des produits </h2>';
-    $contenu .= 'Nombre de produits dans la boutique :' . $resultat->num_rows;
+    $categories_des_produits = executeRequete("SELECT DISTINCT categorie FROM produit");
+    $contenu .= '<div class="boutique-gauche">';
+    $contenu .= "<ul>";
+    while($cat = $categories_des_produits->fetch_assoc())
+    {
+    	$contenu .= "<li><a href='?categorie="	. $cat['categorie'] . "'>" . $cat['categorie'] . "</a></li>";
+    }
+    $contenu .= "</ul>";
+    $contenu .= "</div>";
+    // $categories_des_produits = executeRequete("SELECT DISTINCT categorie FROM produit");
+    // $contenu .= '<div class="boutique-gauche">';
+    // $contenu .= "<ul>";
+    // while($cat = $categories_des_produits->fetch_assoc())
+    // {
+    // 	$contenu .= "<li><a href='?categorie="	. $cat['categorie'] . "'>" . $cat['categorie'] . "</a></li>";
+    // }
+    // $contenu .= "</ul>";
+    // $contenu .= "</div>";
+    // //--- AFFICHAGE DES PRODUITS ---//
+    // $contenu .= '<div class="boutique-droite">';
+    // if(isset($_GET['categorie']))
+    // {
+    // 	$donnees = executeRequete("SELECT id_produit,reference,titre,photo,prix FROM produit WHERE categorie='$_GET[categorie]'");
+    // 	while($produit = $donnees->fetch_assoc())
+    // 	{
+    // 		$contenu .= '<div class="boutique-produit">';
+    // 		$contenu .= "<h3>$produit[titre]</h3>";
+    // 		$contenu .= "<a href=\"fiche_produit.php?id_produit=$produit[id_produit]\"><img src=\"inc/img/photoProduit/$produit[photo]\" width=\"100\" height=\"100\" /></a>";
+    // 		$contenu .= "<p>$produit[prix] €</p>";
+    // 		$contenu .= '<a href="fiche_produit.php?id_produit=' . $produit['id_produit'] . '">Voir la fiche</a>';
+    // 		$contenu .= '</div>';
+    // 	}
+    // }
+    // $contenu .= '</div>';
 }
 
 ////// ON COMMENCE LA RECHERCHE //////
 
 else{
     $contenu .= '<p><strong>Les produits correspondants à votre recherche : </strong> " '.$_POST['motcle'].' "</p>';
-
-    $contenu .= '<h2> Affichage des produits </h2>';
 
     $motcle = explode(" ", $_POST['motcle']); //DISPOSER EN TABLEAU LES MOTS CLES
     $req = "SELECT * FROM produit WHERE";
@@ -64,17 +94,22 @@ else{
     $req = preg_replace("#AND$#", "", $req);
 
     $resultat = executeRequete($req);
+
+    $contenu .= '<div class="boutique-droite">';
+
+    	while($produit = $resultat->fetch_assoc())
+    	{
+    		$contenu .= '<div class="boutique-produit">';
+    		$contenu .= "<h3>$produit[titre]</h3>";
+    		$contenu .= "<a href=\"fiche_produit.php?id_produit=$produit[id_produit]\"><img src=\"inc/img/photoProduit/$produit[photo]\" width=\"100\" height=\"100\" /></a>";
+    		$contenu .= "<p>$produit[prix] €</p>";
+    		$contenu .= '<a href="fiche_produit.php?id_produit=' . $produit['id_produit'] . '">Voir la fiche</a>';
+    		$contenu .= '</div>';
+    	}
+    $contenu .= '</div>';
 }
 
-$categories_des_produits = executeRequete("SELECT DISTINCT categorie FROM produit");
-$contenu .= '<div class="boutique-gauche">';
-$contenu .= "<ul>";
-while($cat = $categories_des_produits->fetch_assoc())
-{
-	$contenu .= "<li><a href='?categorie="	. $cat['categorie'] . "'>" . $cat['categorie'] . "</a></li>";
-}
-$contenu .= "</ul>";
-$contenu .= "</div>";
+
 //--- AFFICHAGE DES PRODUITS ---//
 $contenu .= '<div class="boutique-droite">';
 if(isset($_GET['categorie']))
