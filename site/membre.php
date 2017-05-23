@@ -45,7 +45,8 @@ if($_POST)
 				$_POST[$indice] = htmlEntities(addSlashes($valeur));
                 $_SESSION['membre'][$indice] = $_POST[$indice];
 			}
-			executeRequete("UPDATE membre SET pseudo = '$_POST[pseudo]', mdp = '$_POST[mdp]', nom = '$_POST[nom]', prenom = '$_POST[prenom]', email = '$_POST[email]', civilite  ='$_POST[civilite]', ville = '$_POST[ville]', code_postal = '$_POST[code_postal]', adresse = '$_POST[adresse]' WHERE id_membre = $currentId");
+            $mdp = encrypt($_POST['mdp'], $_POST['pseudo']);
+			executeRequete("UPDATE membre SET pseudo = '$_POST[pseudo]', mdp = '$mdp', nom = '$_POST[nom]', prenom = '$_POST[prenom]', email = '$_POST[email]', civilite  ='$_POST[civilite]', ville = '$_POST[ville]', code_postal = '$_POST[code_postal]', adresse = '$_POST[adresse]' WHERE id_membre = $currentId");
 			$contenu .= "<div class='validation'>Vos données ont bien été modifiées. <a href=\"profil.php\"></a></div>";
 	}
 }
