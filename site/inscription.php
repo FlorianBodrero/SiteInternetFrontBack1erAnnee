@@ -1,20 +1,19 @@
 <?php require_once("inc/init.inc.php");
 # ------------------------------ TRAITEMENT_PHP
 if ($_POST) {
-    debug($_POST);
     $verif_caractere = preg_match('#^[a-zA-Z0-9._-]+$#', $_POST ['pseudo']);
     if (!$verif_caractere && (strlen($_POST['pseudo'] < 1) || strlen($_POST['pseudo']) > 20)) {
-        $contenu .= "<div class='erreur'> Le psuedo doit contenir entre 1 et 2 à caractères. Caractères acceptés : Lettre de A à Z, a à z, et chiffre de 0 à 9 </div>";
+        $contenu .= "<div class='erreur'> Le pseudo doit contenir entre 1 et 2 à caractères. Caractères acceptés : Lettre de A à Z, a à z, et chiffre de 0 à 9 </div>";
     } else {
         $membre = executeRequete("SELECT * FROM membre WHERE pseudo = '$_POST[pseudo]'");
         if ($membre->num_rows > 0) {
-            $contenu = "<div class='erreur'> Le psuedo existe déjà. Veuillez le changer </div>";
+            $contenu = "<div class='erreur'> Le pseudo existe déjà. Veuillez le changer </div>";
         } else {
             $mdp = encrypt($_POST['mdp'], $_POST['pseudo']);
             foreach ($_POST as $indice => $valeur) {
                 $_POST[$indice] = htmlentities(addslashes($valeur)); #htmlentitites: prend les characteres tel qu'ils sont
             }
-            executeRequete("INSERT INTO membre (pseudo, mdp, nom, prenom, email, civilite, ville, code_postal, adresse) VALUES ('$_POST[pseudo]',$mdp, '$_POST[nom]','$_POST[prenom]','$_POST[email]','$_POST[civilite]','$_POST[ville]','$_POST[code_postal]','$_POST[adresse]')");
+            executeRequete("INSERT INTO membre (pseudo, mdp, nom, prenom, email, civilite, ville, code_postal, adresse) VALUES ('$_POST[pseudo]','$mdp', '$_POST[nom]','$_POST[prenom]','$_POST[email]','$_POST[civilite]','$_POST[ville]','$_POST[code_postal]','$_POST[adresse]')");
             $contenu .= '<div class="validation"; style="background-color: #669933"> Vous etes inscrit à notre site web <a href="connexion.php"> Cliquez ici pour vous connecter</a></div>';
         }
     }
@@ -28,7 +27,7 @@ if ($_POST) {
 
 <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
     <label for="pseudo"> Pseudo </label> <br/>
-    <input type="text" id="psuedo" name="pseudo" maxlength="20" placeholder="votre pseudo" required/> <br/>
+    <input type="text" id="pseudo" name="pseudo" maxlength="20" placeholder="votre pseudo" required/> <br/>
 
     <label for="mdp"> Mot de passe </label> <br/>
     <input type="password" id="mdp" name="mdp" maxlength="20" required/> <br/>
