@@ -1,7 +1,6 @@
 <?php require_once("inc/init.inc.php");
 # ------------------------------ TRAITEMENT_PHP
 if ($_POST) {
-    debug($_POST);
     $verif_caractere = preg_match('#^[a-zA-Z0-9._-]+$#', $_POST ['pseudo']);
     if (!$verif_caractere && (strlen($_POST['pseudo'] < 1) || strlen($_POST['pseudo']) > 20)) {
         $contenu .= "<div class='erreur'> Le psuedo doit contenir entre 1 et 2 à caractères. Caractères acceptés : Lettre de A à Z, a à z, et chiffre de 0 à 9 </div>";
