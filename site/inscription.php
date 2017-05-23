@@ -14,7 +14,7 @@ if ($_POST) {
             foreach ($_POST as $indice => $valeur) {
                 $_POST[$indice] = htmlentities(addslashes($valeur)); #htmlentitites: prend les characteres tel qu'ils sont
             }
-            executeRequete("INSERT INTO membre (pseudo, mdp, nom, prenom, email, civilite, ville, code_postal, adresse) VALUES ('$_POST[pseudo]',$mdp, '$_POST[nom]','$_POST[prenom]','$_POST[email]','$_POST[civilite]','$_POST[ville]','$_POST[code_postal]','$_POST[adresse]')");
+            executeRequete("INSERT INTO membre (pseudo, mdp, nom, prenom, email, civilite, ville, code_postal, adresse) VALUES ('$_POST[pseudo]','$mdp', '$_POST[nom]','$_POST[prenom]','$_POST[email]','$_POST[civilite]','$_POST[ville]','$_POST[code_postal]','$_POST[adresse]')");
             $contenu .= '<div class="validation"; style="background-color: #669933"> Vous etes inscrit à notre site web <a href="connexion.php"> Cliquez ici pour vous connecter</a></div>';
         }
     }
