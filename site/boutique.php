@@ -23,24 +23,24 @@ require_once("inc/haut.inc.php");?>
 //--------------------------------- TRAITEMENTS PHP ---------------------------------//
 //--- AFFICHAGE DES CATEGORIES ---//
 ////// SANS RECHERHCE ON AFFICHE TOUT LES PRODUITS //////
-if (!isset($_POST['range'])) {
+if (!isset($_POST['range'])) { // tranche de prix max
     $_POST['range'] = 150;
 }
-if(empty($_POST['motcle'])){
+if(empty($_POST['motcle'])){ 
     if (empty($_GET['page'])) {
         $_GET['page'] = 1;
-        $resultat = executeRequete("SELECT * FROM produit WHERE prix <= $_POST[range] LIMIT 0, 6");
+        $resultat = executeRequete("SELECT * FROM produit WHERE prix <= $_POST[range] LIMIT 0, 6"); //afficher maximum 6 éléments
     }
-    elseif ($_GET['page'] < 1) {
+    elseif ($_GET['page'] < 1) { // si pas de pages, ne pas écrire le nombre de pages
         header("location:boutique.php");
     }
     else {
-        $offset = ($_GET['page']-1)*6;
+        $offset = ($_GET['page']-1)*6; // nombre de pages de 0 à 5
         $resultat = executeRequete("SELECT * FROM produit WHERE prix <= $_POST[range] LIMIT $offset, 6");
     }
-    $nb_pages = ceil($resultat->num_rows/6);
+    $nb_pages = ceil($resultat->num_rows/6); //arrondir le nombre de pages
 
-    if($_GET['page'] > $nb_pages && $nb_pages >= 1)
+    if($_GET['page'] > $nb_pages && $nb_pages >= 1) // éviter bugs si les pages sont plus nombreuses que prévues
     {
         header("location:boutique.php");
     }
@@ -63,16 +63,16 @@ else{
 
     $motcle = explode(" ", $_POST['motcle']); //DISPOSER EN TABLEAU LES MOTS CLES
     $req = "SELECT * FROM produit WHERE";
-    foreach ($motcle as $word) { //BUILD LA REQUETE A L(AIDE DE SMOTS CLES)
+    foreach ($motcle as $word) { //BUILD LA REQUETE A L'AIDE DES MOTS CLES
         $req .= " (titre LIKE '%".$word."%' OR categorie LIKE '%".$word."%') AND";
     }
-    $req = preg_replace("#AND$#", "", $req);
+    $req = preg_replace("#AND$#", "", $req); //supprimer le denrier AND
 
-    $resultat = executeRequete($req);
+    $resultat = executeRequete($req); //executer la reqête finale
 
     $contenu .= '<div class="boutique-droite">';
 
-    	while($produit = $resultat->fetch_assoc())
+    	while($produit = $resultat->fetch_assoc()) //afficher lors d'une recherche
     	{
     		$contenu .= '<div class="boutique-produit">';
     		$contenu .= "<h3>$produit[titre]</h3>";
@@ -90,7 +90,7 @@ $contenu .= '<div class="boutique-droite">';
 if(isset($_GET['categorie']))
 {
 	$donnees = executeRequete("SELECT id_produit,reference,titre,photo,prix FROM produit WHERE categorie='$_GET[categorie]'");
-	while($produit = $donnees->fetch_assoc())
+	while($produit = $donnees->fetch_assoc()) //affichage en cliquant sur le menu gauche
 	{
 		$contenu .= '<div class="boutique-produit">';
 		$contenu .= "<h3>$produit[titre]</h3>";
@@ -107,7 +107,7 @@ require_once("inc/bas.inc.php");
 ?>
 
 
-<script>
+<script> //script concernant la tranche de prix
 var myRange = document.querySelector('#myRange');
 var myValue = document.querySelector('#myValue');
 var off = myRange.offsetWidth / (parseInt(myRange.max) - parseInt(myRange.min));
