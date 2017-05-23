@@ -1,8 +1,8 @@
 <?php
 require_once("inc/init.inc.php");
-require_once("inc/haut.inc.php");?>
-
-
+//--------------------------------- AFFICHAGE HTML ---------------------------------//
+?>
+<?php require_once("inc/haut.inc.php"); ?>
 <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
     <label for="motcle">Rechercher : </label>
     <input type="search" name="motcle" placeholder="Tapez un mot" size="20px">
@@ -20,8 +20,6 @@ require_once("inc/haut.inc.php");?>
 </form>
 
 <?php
-//--------------------------------- TRAITEMENTS PHP ---------------------------------//
-//--- AFFICHAGE DES CATEGORIES ---//
 ////// SANS RECHERHCE ON AFFICHE TOUT LES PRODUITS //////
 if (!isset($_POST['range'])) {
     $_POST['range'] = 150;
@@ -45,21 +43,16 @@ if(empty($_POST['motcle'])){
         header("location:boutique.php");
     }
 
-    $categories_des_produits = executeRequete("SELECT DISTINCT categorie FROM produit");
-    $contenu .= '<div class="boutique-gauche">';
-    $contenu .= "<ul>";
-    while($cat = $categories_des_produits->fetch_assoc())
-    {
-    	$contenu .= "<li><a href='?categorie="	. $cat['categorie'] . "'>" . $cat['categorie'] . "</a></li>";
-    }
-    $contenu .= "</ul>";
-    $contenu .= "</div>";
+    $contenu .= '<h2> Affichage des produits </h2>';
+    $contenu .= 'Nombre de produits dans la boutique :' . $resultat->num_rows;
 }
 
 ////// ON COMMENCE LA RECHERCHE //////
 
 else{
     $contenu .= '<p><strong>Les produits correspondants à votre recherche : </strong> " '.$_POST['motcle'].' "</p>';
+
+    $contenu .= '<h2> Affichage des produits </h2>';
 
     $motcle = explode(" ", $_POST['motcle']); //DISPOSER EN TABLEAU LES MOTS CLES
     $req = "SELECT * FROM produit WHERE";
@@ -69,42 +62,49 @@ else{
     $req = preg_replace("#AND$#", "", $req);
 
     $resultat = executeRequete($req);
-
-    $contenu .= '<div class="boutique-droite">';
-
-    	while($produit = $resultat->fetch_assoc())
-    	{
-    		$contenu .= '<div class="boutique-produit">';
-    		$contenu .= "<h3>$produit[titre]</h3>";
-    		$contenu .= "<a href=\"fiche_produit.php?id_produit=$produit[id_produit]\"><img src=\"inc/img/photoProduit/$produit[photo]\" width=\"100\" height=\"100\" /></a>";
-    		$contenu .= "<p>$produit[prix] €</p>";
-    		$contenu .= '<a href="fiche_produit.php?id_produit=' . $produit['id_produit'] . '">Voir la fiche</a>';
-    		$contenu .= '</div>';
-    	}
-    $contenu .= '</div>';
 }
-
-
-//--- AFFICHAGE DES PRODUITS ---//
-$contenu .= '<div class="boutique-droite">';
-if(isset($_GET['categorie']))
-{
-	$donnees = executeRequete("SELECT id_produit,reference,titre,photo,prix FROM produit WHERE categorie='$_GET[categorie]'");
-	while($produit = $donnees->fetch_assoc())
-	{
-		$contenu .= '<div class="boutique-produit">';
-		$contenu .= "<h3>$produit[titre]</h3>";
-		$contenu .= "<a href=\"fiche_produit.php?id_produit=$produit[id_produit]\"><img src=\"inc/img/photoProduit/$produit[photo]\" width=\"100\" height=\"100\" /></a>";
-		$contenu .= "<p>$produit[prix] €</p>";
-		$contenu .= '<a href="fiche_produit.php?id_produit=' . $produit['id_produit'] . '">Voir la fiche</a>';
-		$contenu .= '</div>';
-	}
-}
-$contenu .= '</div>';
-//--------------------------------- AFFICHAGE HTML ---------------------------------//
+createTab($resultat, $contenu);
 echo $contenu;
-require_once("inc/bas.inc.php");
+
+function createTab($resultat, &$contenu){
+    $contenu .= '<table border="1"><tr>';
+
+    while ($colonne = $resultat->fetch_field()) { # AFFICHER LES COLONNES
+        if ($colonne->name != 'id_produit' && $colonne->name != 'reference') {
+            $contenu .= '<th>' . $colonne->name . ' </th>';
+        }
+    }
+
+    while ($ligne = $resultat->fetch_assoc()) { // CONSTUIRE LE TABLEAU EQUIVALENT A LA REQUETE CRÉÉE
+        $contenu .= "<form action=\"$_SERVER[PHP_SELF]\" method=\"POST\">";
+        $contenu .= '<tr>';
+        foreach ($ligne as $item => $value) {
+          if ($item == "id_produit") {
+              $id_produit = $value;
+              $contenu .= '<input type="hidden" name="id_commande" value="'. $id_commande .'"/>';
+          }
+
+            if ($item != 'id_produit' && $item != 'reference') {
+                if ($item == "photo") {
+                    $contenu .= '<td> <img src="inc/img/photoProduit/' . $value . '" width = "70px" height = "70px"/></td>';
+                } else {
+                    $contenu .= '<td>' . $value . '</td>';
+                }
+            }
+        }
+        // AJOUTER UNE CASE AJOUTER AU PANIER A LA FIN DE CHAQUE ARTICLE
+        $contenu .= '<td> <u><a href="?action=panier&id_produit = ' . $ligne['id_produit'] . '" onclick="return(alert ("Ajouté au panier"));">Ajouter au panier </a></u> </td>';
+    }
+    $contenu .= '</table>';
+
+}
+
+function ajoutPanier (){
+  $produit = [$id][$quantite];
+  $contenu .= '<input type="hidden" name="id_commande" value="'. $id_commande .'"/>';
+}
 ?>
+<?php require_once("inc/bas.inc.php"); ?>
 
 
 <script>
