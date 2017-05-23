@@ -9,7 +9,6 @@
 // on récupère l'id du membre actuel
 $currentId = $_SESSION['membre']['id_membre'];
 
-
 // petite fonction permettant de récupérer le mot de passe de l'utilisateur
 // on récupère le pseudo du membre actuel
 $currentPseudo = $_SESSION['membre']['pseudo'];
