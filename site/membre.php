@@ -13,20 +13,26 @@ while ($ligne = $recupMdp->fetch_assoc()) {
     foreach ($ligne as $indice => $information) {
     }
 }
+$information = decrypt($information, $_SESSION['membre']['pseudo']);
 
 if($_POST)
 {
-	debug($_POST);
 	$verif_caractere = preg_match('#^[a-zA-Z0-9._-]+$#', $_POST['pseudo']);
 	if(!$verif_caractere || strlen($_POST['pseudo']) < 1 || strlen($_POST['pseudo']) > 20 )
 	{
 		$contenu .= "<div class='erreur'>Le pseudo doit contenir entre 1 et 20 caractères. <br> Caractère accepté : Lettre de A à Z et chiffre de 0 à 9</div>";
 	}
-	if(empty($contenu))
+    $membre = executeRequete("SELECT * FROM membre WHERE pseudo = '$_POST[pseudo]'");
+    if ($membre->num_rows > 0 && $membre->fetch_object()->pseudo != $_SESSION['membre']['pseudo']) {
+        $contenu = "<div class='erreur'> Le pseudo existe déjà. Veuillez le changer </div>";
+    }
+
+	elseif(empty($contenu))
 	{
 			foreach($_POST as $indice => $valeur)
 			{
 				$_POST[$indice] = htmlEntities(addSlashes($valeur));
+                $_SESSION['membre'][$indice] = $_POST[$indice];
 			}
 			executeRequete("UPDATE membre SET pseudo = '$_POST[pseudo]', mdp = '$_POST[mdp]', nom = '$_POST[nom]', prenom = '$_POST[prenom]', email = '$_POST[email]', civilite  ='$_POST[civilite]', ville = '$_POST[ville]', code_postal = '$_POST[code_postal]', adresse = '$_POST[adresse]' WHERE id_membre = $currentId");
 			$contenu .= "<div class='validation'>Vos données ont bien été modifiées. <a href=\"profil.php\"></a></div>";
