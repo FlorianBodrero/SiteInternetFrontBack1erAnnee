@@ -42,7 +42,8 @@ CREATE TABLE `commande` (
 --
 
 INSERT INTO `commande` (`id_commande`, `id_membre`, `montant`, `date_enregistrement`, `etat`) VALUES
-(1, 1, 10, '2017-05-09 00:00:00', 'en cours de traitement');
+  (1, 1, 10, '2017-05-09 00:00:00', 'livré'),
+  (2, 1, 150, '2017-05-31 00:00:00', 'envoyé');
 
 -- --------------------------------------------------------
 
@@ -63,8 +64,9 @@ CREATE TABLE `details_commande` (
 --
 
 INSERT INTO `details_commande` (`id_details_commande`, `id_commande`, `id_produit`, `quantite`, `prix`) VALUES
-(1, 1, 1, 2, 30),
-(2, 1, 2, 3, 50);
+  (1, 1, 1, 2, 30),
+  (2, 1, 2, 3, 50),
+  (3, 2, 1, 8, 150);
 
 -- --------------------------------------------------------
 
@@ -82,7 +84,7 @@ CREATE TABLE `imageavatar` (
 --
 
 INSERT INTO `imageavatar` (`id_membre`, `image`) VALUES
-(1, '1.png');
+  (1, '1.png');
 
 -- --------------------------------------------------------
 
@@ -109,7 +111,7 @@ CREATE TABLE `membre` (
 --
 
 INSERT INTO `membre` (`id_membre`, `pseudo`, `mdp`, `nom`, `prenom`, `email`, `civilite`, `ville`, `code_postal`, `adresse`, `statut`) VALUES
-(1, 'admin', 'admin', 'ynov', 'campus', 'contact@e-ynov.com', 'm', 'Aix-en-Provence', 13109, '2 rue du Corbusier', 1);
+  (1, 'admin', 'Seo8xheOK0Q=', 'ynov', 'campus', 'contact@e-ynov.com', 'm', 'Aix-en-Provence', 13109, '2 rue du Corbusier', 1);
 
 -- --------------------------------------------------------
 
@@ -136,8 +138,8 @@ CREATE TABLE `produit` (
 --
 
 INSERT INTO `produit` (`id_produit`, `reference`, `categorie`, `titre`, `description`, `couleur`, `taille`, `publique`, `photo`, `prix`, `stock`) VALUES
-(1, 'kl', 't-shirt', 'T-shirt Rouge', 'Un t-shirt rouge', 'rouge', 'M', 'mixte', 'rouge.png', 15, 50),
-(2, 'mp', 't-shirt', 'T-shirt vert', 'Un t-shirt vert', 'vert', 'S', 'm', 'vert.png', 10, 30);
+  (1, 'kl', 't-shirt', 'T-shirt Rouge', 'Un t-shirt rouge', 'rouge', 'M', 'mixte', 'rouge.png', 15, 50),
+  (2, 'mp', 't-shirt', 'T-shirt vert', 'Un t-shirt vert', 'vert', 'S', 'm', 'vert.png', 10, 30);
 
 --
 -- Index pour les tables exportées
@@ -186,7 +188,7 @@ ALTER TABLE `produit`
 -- AUTO_INCREMENT pour la table `commande`
 --
 ALTER TABLE `commande`
-  MODIFY `id_commande` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_commande` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT pour la table `details_commande`
 --
@@ -196,12 +198,12 @@ ALTER TABLE `details_commande`
 -- AUTO_INCREMENT pour la table `membre`
 --
 ALTER TABLE `membre`
-  MODIFY `id_membre` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_membre` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT pour la table `produit`
 --
 ALTER TABLE `produit`
-  MODIFY `id_produit` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_produit` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- Contraintes pour les tables exportées
 --
